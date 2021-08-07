@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link href="/favicon.ico" rel="icon" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Mon super template</title>
+  </head>
+
+  <style>
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+
+  <body class="bg-gray-50 dark:bg-gray-900">
+    <div class="scrollbar__indication">
+      <div class="scrollbar__container">
+        <div id="sc" class="scrollbar__progress"></div>
+      </div>
+    </div>
+
+    <div id="app"></div>
+
+    <script src="/src/main.js" type="module"></script>
+  </body>
+
+  <script>
+    window.onscroll = () => {
+      let pourcentage;
+      if (
+        document.documentElement.scrollHeight >
+        document.documentElement.clientHeight
+      ) {
+        //Calcule le % de page parcouru
+        let winScroll =
+          document.body.scrollTop || document.documentElement.scrollTop;
+        let height =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        pourcentage = (winScroll / height) * 100;
+      } else {
+        pourcentage = 0;
+      }
+      document.getElementById("sc").style.width = pourcentage + "%";
+    };
+  </script>
+</html>

@@ -1,0 +1,27 @@
+@import "font/inter.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.scrollbar__indication {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+}
+
+.scrollbar__container {
+    width: 100%;
+    height: 8px;
+}
+
+.scrollbar__progress {
+    height: 8px;
+    background: #f3ca4d;
+    width: 0%;
+}
+
+.form__input {
+    @apply w-full cursor-pointer bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out;
+}
