@@ -9,7 +9,7 @@
       class="form__input"
       name="email"
       placeholder="Entity Name"
-      v-model="entityName"
+      v-model="entityNameTemp"
       @input="this.$store.commit('setEntityName', entityName)"
     />
     <!-- @input="this.$store.commit('setEntityName', entityName)" -->
@@ -17,13 +17,20 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
+const capitalize = (str, lower = false) =>
+  (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, (match) =>
+    match.toUpperCase()
+  );
 export default {
   data() {
-    return { entityName: "" };
+    return { entityNameTemp: "" };
   },
-  methods: {},
+
+  computed: {
+    entityName() {
+      return capitalize(this.entityNameTemp).replaceAll(" ", "");
+    },
+  },
 };
 </script>
 

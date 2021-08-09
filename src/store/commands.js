@@ -1,4 +1,4 @@
-let data = [
+export default [
   {
     name: "channel",
     entitySuffix: "Channel",
@@ -292,14 +292,10 @@ let data = [
   //     },
   //   ],
   // },
-];
-console.log(data);
-data = data.map((cmd) => {
+].map((cmd) => {
   cmd.isChecked = false;
   cmd.options.map((opt) => {
     opt.isChecked = false;
   });
   return cmd;
 });
-
-export default data;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container p-5 mx-auto 2xl:p-0">
     <h1 class="mt-5 text-xl font-bold text-center dark:text-white">
       Artisan Command Generator
     </h1>
@@ -17,6 +17,7 @@ import CommandOptions from "./components/CommandOptions.vue";
 import Result from "./components/Result.vue";
 
 export default {
+  emits: ["created-new-command"],
   created() {},
   mounted() {},
   data() {

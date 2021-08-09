@@ -1,17 +1,4 @@
 <template>
-  <div v-for="cmd in commands" v-bind:key="cmd.name" class="dark:text-gray-100">
-    <label :for="cmd.name" class="flex items-center" v-if="!entityWasSeleted">
-      <input
-        type="checkbox"
-        :name="cmd.name"
-        :id="cmd.name"
-        class="mr-2"
-        v-model="cmd.isChecked"
-        @click="onClick(cmd.name)"
-      />
-      {{ cmd.name }}
-    </label>
-  </div>
   <div v-if="entityWasSeleted" class="flex items-center text-white dark:">
     Selected command :
     {{ selectedCommand.name }}
@@ -35,10 +22,40 @@
       </svg>
     </button>
   </div>
+
+  <div
+    v-else
+    class="grid grid-flow-row-dense grid-cols-6 grid-rows-3 gap-4 mt-2"
+  >
+    <div
+      v-for="cmd in commands"
+      v-bind:key="cmd.name"
+      class="dark:text-gray-100"
+    >
+      <label :for="cmd.name" class="flex items-center" v-if="!entityWasSeleted">
+        <input
+          type="checkbox"
+          :name="cmd.name"
+          :id="cmd.name"
+          class="mr-2"
+          v-model="cmd.isChecked"
+          @click="onClick(cmd.name)"
+        />
+        {{ cmd.name }}
+      </label>
+    </div>
+  </div>
 </template>
 
 <script>
+import EventBus from "./../EventBus";
 export default {
+  created() {
+    EventBus.$on("created-new-command", this.reset);
+  },
+  destroyed() {
+    EventBus.$off("created-new-command", this.reset);
+  },
   data() {
     return {
       entityWasSeleted: false,
@@ -59,7 +76,10 @@ export default {
       this.$store.commit("setSelectedCommand", cmd);
     },
     reset() {
+      //deselect checkboxes
       this.commands.forEach((cmd) => (cmd.isChecked = false));
+      this?.selectedCommand.options.forEach((cmd) => (cmd.isChecked = false));
+
       this.$store.commit("setSelectedCommand", null);
       this.entityWasSeleted = false;
     },
