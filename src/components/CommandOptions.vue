@@ -1,31 +1,14 @@
 <template>
-  <div
-    v-for="option in options"
-    v-bind:key="option.name"
-    class="dark:text-gray-100"
-  >
-    <label :for="option.name" class="flex items-center">
-      <input
-        type="checkbox"
-        class="mr-2"
-        :name="option.name"
-        :id="option.name"
-        v-model="option.isChecked"
-      />
-      {{ option.name }}
-
-      <input
-        v-if="option.isChecked && option.value?.need"
-        v-model="option.value.value"
-        type="text"
-        class="mx-5 form__input"
-      />
-    </label>
+  <div class="options__grid">
+    <Options :options="options"></Options>
   </div>
 </template>
 
 <script>
+import Options from "./reutilisable/Options.vue";
+
 export default {
+  components: { Options },
   mounted() {
     this.$store.commit("setOptions", this.options);
   },
@@ -34,8 +17,11 @@ export default {
       return this.$store.getters.getSelectedCommand.options;
     },
   },
-  methods: {},
 };
 </script>
 
-<style></style>
+<style scoped>
+.options__grid {
+  @apply grid grid-flow-row-dense grid-cols-1 md:grid-cols-4 xl:grid-cols-5 gap-4 mt-2 2xl:grid-cols-6;
+}
+</style>

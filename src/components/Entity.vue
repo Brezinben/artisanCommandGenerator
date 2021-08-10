@@ -6,32 +6,30 @@
     <input
       type="text"
       id="name-with-label"
-      class="form__input"
+      class="my-5 form__input"
       name="email"
       placeholder="Entity Name"
-      v-model="entityNameTemp"
-      @input="this.$store.commit('setEntityName', entityName)"
+      v-model="entityName"
+      @input="onInput"
     />
-    <!-- @input="this.$store.commit('setEntityName', entityName)" -->
   </div>
 </template>
 
 <script>
-const capitalize = (str, lower = false) =>
-  (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, (match) =>
-    match.toUpperCase()
-  );
 export default {
   data() {
-    return { entityNameTemp: "" };
+    return { entityName: "" };
   },
-
-  computed: {
-    entityName() {
-      return capitalize(this.entityNameTemp).replaceAll(" ", "");
+  methods: {
+    onInput() {
+      this.$store.commit("setEntityName", this.entityName);
     },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+input:placeholder-shown {
+  @apply ring ring-red-600 ring-offset-2 ring-offset-red-400;
+}
+</style>

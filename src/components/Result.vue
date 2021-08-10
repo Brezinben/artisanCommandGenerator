@@ -1,28 +1,11 @@
 <template>
+  <span class="text-white">{{ result }}</span>
   <div
     v-for="cmd in allCommands"
     v-bind:key="cmd.order"
-    class="flex items-center space-x-4 dark:text-white"
+    class="space-x-4 flex__hozAlign"
   >
-    <button
-      class="flex items-center justify-center w-10 h-10 m-2 text-white duration-100 bg-red-700 rounded-md  hover:bg-red-500"
-      @click="deleteCmd(cmd)"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-6 h-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
-    </button>
+    <CancelButton @click="deleteCmd(cmd)"></CancelButton>
 
     <input
       style="width: 4rem"
@@ -36,7 +19,7 @@
 
   <button
     v-if="this.result"
-    class="flex items-center justify-center w-10 h-10 m-2 text-white duration-100 bg-green-700 rounded-md  hover:bg-green-500"
+    class="flex items-center justify-center w-10 h-10 m-2 text-white duration-100 bg-green-700 rounded-md  hover:bg-green-800"
     @click="addCommand"
   >
     <svg
@@ -55,18 +38,20 @@
     </svg>
   </button>
   <div
-    class="w-full h-32 mt-5 bg-black rounded-lg  dark:text-white ring-8 ring-gray-600"
+    v-if="allResult"
+    class="w-full mt-5 bg-gray-900 rounded-sm  dark:text-gray-50 h-min ring-8 ring-gray-800 ring-offset-4 ring-offset-gray-700"
   >
-    <Command v-if="allResult" class="pt-5 ml-3" :command="allResult"></Command>
+    <Command class="p-3 ml-3" :command="allResult"></Command>
   </div>
 </template>
 
 <script>
-import Command from "./Command.vue";
+import CancelButton from "./reutilisable/CancelButton.vue";
+import Command from "./reutilisable/Command.vue";
 import EventBus from "./../EventBus";
 export default {
   emits: ["created-new-command"],
-  components: { Command },
+  components: { Command, CancelButton },
   computed: {
     result() {
       return this.$store.getters.getResultOfOne;
@@ -94,5 +79,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

@@ -1,13 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
 import NotFound from "@/views/NotFound.vue";
+import MakeCommand from "@/views/MakeCommand.vue";
 
 const routes = [
   {
-    name: "main",
+    name: "home",
     path: "/",
-    meta: { title: "main page" },
-    component: NotFound,
-    //redirect: { name: "" },
+    redirect: { name: "make" },
+  },
+  {
+    name: "make",
+    path: "/make",
+    meta: { title: "all artisan make command" },
+    component: MakeCommand,
   },
 
   {
