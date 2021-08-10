@@ -1,5 +1,4 @@
 <template>
-  <span class="text-white">{{ result }}</span>
   <div
     v-for="cmd in allCommands"
     v-bind:key="cmd.order"
@@ -19,7 +18,7 @@
 
   <button
     v-if="this.result"
-    class="flex items-center justify-center w-10 h-10 m-2 text-white duration-100 bg-green-700 rounded-md  hover:bg-green-800"
+    class="flex items-center justify-center w-full h-10 m-2 text-white duration-100 bg-green-700 rounded-md  hover:bg-green-800"
     @click="addCommand"
   >
     <svg
@@ -36,6 +35,7 @@
         d="M12 6v6m0 0v6m0-6h6m-6 0H6"
       />
     </svg>
+    Add command
   </button>
   <div
     v-if="allResult"

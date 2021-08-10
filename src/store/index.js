@@ -1,5 +1,7 @@
 import { createStore } from "vuex";
 import commands from "./commands";
+import buildMigrationName from "./migrationLogic";
+import pluralize from "pluralize";
 
 export default createStore({
   state: {
@@ -36,55 +38,24 @@ export default createStore({
 
       if (commandString && selectedCommand && options && entityName) {
         const optionsWithoutValue = options
-          .filter((option) => option?.other == false)
           .filter((option) => option.isChecked && option.value === null)
+          .filter((option) => !option?.other || option.other == false)
           .map((option) => option.name)
           .join(" ");
 
         const optionsWithValue = options
-          .filter((option) => option?.other == false)
           .filter((option) => option.isChecked && option.value?.need)
+          .filter((option) => !option?.other || option.other == false)
           .map((option) => `${option.name}=${option.value.value}`)
           .join(" ");
 
         let name = "";
 
         if (selectedCommand.name === "migration" && options.length) {
-          const getOptions = (n) => options.find((o) => o.name === n);
-
-          const create = getOptions(" suffix create");
-          const alter = getOptions(" suffix alter");
-          const pivot = getOptions(" pivot");
-
-          let suffix = "";
-
-          if (create.isChecked) {
-            suffix += "create_";
-          }
-          if (alter.isChecked) {
-            suffix += "alter_";
-          }
-
-          let pivotName = "";
-
-          if (pivot.isChecked) {
-            pivotName = [pivot.value.value, entityName]
-              //.map((model) => model /*pluralize */)
-              .map((w) => w.toLowerCase())
-              .map((w) => w.trim())
-              .sort((x, y) => {
-                if (x < y) return -1;
-                if (x > y) return 1;
-                return 0;
-              })
-              .join("_");
-          }
-          const nameToDisplay =
-            pivotName || entityName.toLowerCase().replaceAll(" ", "_");
-
-          name = `${suffix}${nameToDisplay}_table`;
+          name = buildMigrationName({ name: entityName, options: options });
         } else {
-          name = capitalize(entityName).replaceAll(" ", "");
+          //Model in sigular for best pratice
+          name = capitalize(pluralize.singular(entityName)).replaceAll(" ", "");
         }
 
         return `${commandString}${selectedCommand.name}  ${name}${selectedCommand.entitySuffix} ${optionsWithoutValue} ${optionsWithValue}`;

@@ -6,7 +6,7 @@
     <input
       type="text"
       id="name-with-label"
-      class="my-5 form__input"
+      class="mt-2 mb-5 form__input"
       name="email"
       placeholder="Entity Name"
       v-model="entityName"

@@ -12,6 +12,7 @@
     "dev-and-networked": "vite --host"
   },
   "dependencies": {
+    "pluralize": "^8.0.0",
     "sass": "^1.32.12",
     "tiny-emitter": "^2.1.0",
     "vue": "^3.0.5",
