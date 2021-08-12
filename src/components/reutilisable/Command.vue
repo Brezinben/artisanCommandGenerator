@@ -38,7 +38,10 @@
 
     <order-button :cmd="cmd"></order-button>
   </div>
-  <div class="relative flex-grow flex__hozAlign firaCode">
+  <div
+    class="relative flex-grow flex__hozAlign firaCode"
+    :class="{ 'p-4 pl-1': !canModify }"
+  >
     <svg
       v-if="!modify"
       xmlns="http://www.w3.org/2000/svg"

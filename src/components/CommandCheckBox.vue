@@ -20,7 +20,7 @@
     <CancelButton @click="reset"></CancelButton>
   </div>
 
-  <div v-else class="mt-2 grid__options dark:text-gray-100">
+  <div v-else class="my-2 grid__options dark:text-gray-100">
     <Checkbox
       v-for="cmd in commands"
       v-bind:key="cmd.name"
