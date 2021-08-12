@@ -24,6 +24,11 @@ export default createStore({
       (state.allCommands = state.allCommands.filter(
         (cmd) => cmd.order != command.order
       )),
+    commandHasChanged: (state, payload) => {
+      const { oldValue, newValue } = payload;
+      state.allCommands.find((cmd) => cmd.command == oldValue).command =
+        newValue.trim().replaceAll("  ", " ");
+    },
   },
   actions: {},
   modules: {},
@@ -55,7 +60,9 @@ export default createStore({
           name = buildMigrationName({ name: entityName, options: options });
         } else {
           //Model in sigular for best pratice
-          name = capitalize(pluralize.singular(entityName)).replaceAll(" ", "");
+          const lowerName = entityName.toLowerCase();
+          const singularName = pluralize.singular(lowerName);
+          name = capitalize(singularName).replaceAll(" ", "");
         }
 
         return `${commandString}${selectedCommand.name}  ${name}${selectedCommand.entitySuffix} ${optionsWithoutValue} ${optionsWithValue}`;
@@ -67,6 +74,7 @@ export default createStore({
       if (hasNoCommand) return "";
 
       return state.allCommands
+        .filter((cmd) => cmd.command)
         .sort((c1, c2) => c1.order - c2.order)
         .map((cmd) => cmd.command)
         .join(" && ");
@@ -75,6 +83,9 @@ export default createStore({
     getEntityName: (state) => state.entityName,
     getCommands: (state) => state.commands,
     getSelectedCommand: (state) => state.selectedCommand,
-    getAllCommands: (state) => state.allCommands,
+    getAllCommands: (state) =>
+      state.allCommands
+        .filter((cmd) => cmd.command)
+        .sort((c1, c2) => c1.order - c2.order),
   },
 });

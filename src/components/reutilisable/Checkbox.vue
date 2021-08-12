@@ -1,5 +1,8 @@
 <template>
-  <div class="flex__hozAlign" style="--primary: #eea12a; --gray: #fff">
+  <div
+    class="flex__hozAlign"
+    style="--primaryCheckbox: #eea12a; --grayCheckbox: #fff"
+  >
     <input
       class="inp-cbx"
       :name="option.name"
@@ -34,7 +37,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .isCommon {
   color: rgba(110, 231, 183) !important;
   &:checked {
@@ -57,7 +60,7 @@ export default {
       border-radius: 50%;
       transform: scale(1);
       vertical-align: middle;
-      border: 1px solid var(--gray);
+      border: 1px solid var(--grayCheckbox);
       transition: all 0.2s ease;
       svg {
         position: absolute;
@@ -79,7 +82,7 @@ export default {
         content: "";
         width: 100%;
         height: 100%;
-        background: var(--primary);
+        background: var(--primaryCheckbox);
         display: block;
         transform: scale(0);
         opacity: 1;
@@ -93,14 +96,14 @@ export default {
     }
   }
   &:hover span:first-child {
-    border-color: var(--primary);
+    border-color: var(--primaryCheckbox);
   }
 }
 .inp-cbx:checked + .cbx {
   span {
     &:first-child {
-      border-color: var(--primary);
-      background: var(--primary);
+      border-color: var(--primaryCheckbox);
+      background: var(--primaryCheckbox);
       animation: check 0.6s ease;
       svg {
         stroke-dashoffset: 0;
@@ -112,7 +115,7 @@ export default {
       }
     }
     &:last-child {
-      color: var(--gray);
+      color: var(--grayCheckbox);
       transition: all 0.3s ease;
       &:after {
         transform: scaleX(1);

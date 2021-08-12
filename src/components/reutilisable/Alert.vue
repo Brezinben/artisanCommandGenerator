@@ -29,7 +29,7 @@
   </transition>
 </template>
 <script>
-import EventBus from "../../EventBus";
+import EventBus from "@/EventBus";
 export default {
   name: "Alert",
   data() {
@@ -40,6 +40,7 @@ export default {
   },
   created() {
     EventBus.$on("commandCopied", this.triggerAlert);
+    EventBus.$on("commandModified", this.triggerAlert);
   },
   methods: {
     triggerAlert(alert) {

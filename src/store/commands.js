@@ -439,17 +439,15 @@ export default [
   },
 ].map((cmd) => {
   cmd.isChecked = false;
-  cmd.options = cmd.options
-    .map((opt) => {
-      opt.isChecked = false;
-      return opt;
-    })
-    .sort((x, y) => {
-      if (x.name < y.name) return -1;
-      if (x.name > y.name) return 1;
-      return 0;
-    });
-  cmd.options = [...cmd.options, ...commonsOptions];
+  cmd.options = cmd.options.sort((x, y) => {
+    if (x.name < y.name) return -1;
+    if (x.name > y.name) return 1;
+    return 0;
+  });
+  cmd.options = [...cmd.options, ...commonsOptions].map((opt) => {
+    opt.isChecked = false;
+    return opt;
+  });
 
   return cmd;
 });
