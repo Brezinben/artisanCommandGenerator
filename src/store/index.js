@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import commands from "./commands";
 import buildMigrationName from "./migrationLogic";
 import pluralize from "pluralize";
+const localStorageKey = "artisanCmd";
 
 export default createStore({
   state: {
@@ -10,7 +11,7 @@ export default createStore({
     commands: commands,
     selectedCommand: null,
     options: [],
-    allCommands: [],
+    allCommands: JSON.parse(localStorage.getItem(localStorageKey)) || [],
     currentCommand: "",
   },
   mutations: {
@@ -19,15 +20,19 @@ export default createStore({
     setOptions: (state, options) => (state.options = options),
     addCommand(state, newCommand) {
       state.allCommands = [...state.allCommands, newCommand];
+      localStorage.setItem(localStorageKey, JSON.stringify(state.allCommands));
     },
-    deleteCommand: (state, command) =>
-      (state.allCommands = state.allCommands.filter(
+    deleteCommand: (state, command) => {
+      state.allCommands = state.allCommands.filter(
         (cmd) => cmd.order != command.order
-      )),
+      );
+      localStorage.setItem(localStorageKey, JSON.stringify(state.allCommands));
+    },
     commandHasChanged: (state, payload) => {
       const { oldValue, newValue } = payload;
       state.allCommands.find((cmd) => cmd.command == oldValue).command =
         newValue.trim().replaceAll("  ", " ");
+      localStorage.setItem(localStorageKey, JSON.stringify(state.allCommands));
     },
   },
   actions: {},

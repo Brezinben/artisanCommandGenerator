@@ -1,7 +1,7 @@
 <template>
   <Alert></Alert>
   <!-- <toogle-dark-mode></toogle-dark-mode> -->
-  <div class="container p-5 mx-auto 2xl:p-0">
+  <div class="container p-5 mx-auto 2xl:px-10 2xl:p-0">
     <h1 class="mt-5 text-xl font-bold text-center dark:text-white">
       Artisan Command Generator
     </h1>
@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import ToogleDarkMode from "./components/reutilisable/ToogleDarkMode.vue";
 import Alert from "./components/reutilisable/Alert.vue";
 import Result from "./components/Result.vue";
 
