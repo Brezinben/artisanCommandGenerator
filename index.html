@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
   <head>
     <meta charset="UTF-8" />
     <link href="/favicon.ico" rel="icon" />
@@ -40,14 +40,14 @@
       document.getElementById("sc").style.width = pourcentage + "%";
     };
 
-    if (
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      doc.classList.add("dark");
-    } else {
-      doc.classList.remove("dark");
-    }
+    // if (
+    //   localStorage.theme === "dark" ||
+    //   (!("theme" in localStorage) &&
+    //     window.matchMedia("(prefers-color-scheme: dark)").matches)
+    // ) {
+    //   doc.classList.add("dark");
+    // } else {
+    //   doc.classList.remove("dark");
+    // }
   </script>
 </html>

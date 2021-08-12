@@ -1,6 +1,6 @@
 import pluralize from "pluralize";
 export default function ({ name, options }) {
-  const getOptions = (n) => options.find((o) => o.name === n);
+  const getOptions = (n) => options.find((o) => o.name === n) || "";
 
   const create = getOptions(" suffix create");
   const alter = getOptions(" suffix alter");

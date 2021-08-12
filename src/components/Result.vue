@@ -4,16 +4,7 @@
     v-bind:key="cmd.order"
     class="space-x-4 flex__hozAlign"
   >
-    <CancelButton @click="deleteCmd(cmd)"></CancelButton>
-
-    <input
-      style="width: 4rem"
-      type="number"
-      class="form__input"
-      v-model.number="cmd.order"
-    />
-
-    <Command :command="cmd.command"></Command>
+    <command :canModify="true" :cmd="cmd" />
   </div>
 
   <button
@@ -37,21 +28,21 @@
     </svg>
     Add command
   </button>
+
   <div
     v-if="allResult"
     class="w-full mt-5 bg-gray-900 rounded-sm  dark:text-gray-50 h-min ring-8 ring-gray-800 ring-offset-4 ring-offset-gray-700"
   >
-    <Command class="p-3 ml-3" :command="allResult"></Command>
+    <command :canModify="false" :cmd="{ order: 0, command: allResult }" />
   </div>
 </template>
 
 <script>
-import CancelButton from "./reutilisable/CancelButton.vue";
 import Command from "./reutilisable/Command.vue";
-import EventBus from "./../EventBus";
+import EventBus from "@/EventBus";
 export default {
   emits: ["created-new-command"],
-  components: { Command, CancelButton },
+  components: { Command },
   computed: {
     result() {
       return this.$store.getters.getResultOfOne;
@@ -66,15 +57,11 @@ export default {
   methods: {
     addCommand() {
       this.$store.commit("addCommand", {
-        order: this.$store.getters.getAllCommands.length + 1,
+        order: this.allCommands.length + 1,
         command: this.result,
       });
 
       EventBus.$emit("created-new-command");
-    },
-
-    deleteCmd(cmd) {
-      this.$store.commit("deleteCommand", cmd);
     },
   },
 };
