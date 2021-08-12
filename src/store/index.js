@@ -27,11 +27,7 @@ export default createStore({
     commandHasChanged: (state, payload) => {
       const { oldValue, newValue } = payload;
       state.allCommands.find((cmd) => cmd.command == oldValue).command =
-<<<<<<< HEAD
         newValue.trim().replaceAll("  ", " ");
-=======
-        newValue;
->>>>>>> 4b6e93a8c1139be53defe78cc2cd5b21b7b71f2e
     },
   },
   actions: {},

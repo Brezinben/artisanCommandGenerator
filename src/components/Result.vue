@@ -58,11 +58,7 @@ export default {
     addCommand() {
       this.$store.commit("addCommand", {
         order: this.allCommands.length + 1,
-<<<<<<< HEAD
         command: this.result.trim(),
-=======
-        command: this.result,
->>>>>>> 4b6e93a8c1139be53defe78cc2cd5b21b7b71f2e
       });
 
       EventBus.$emit("created-new-command");
