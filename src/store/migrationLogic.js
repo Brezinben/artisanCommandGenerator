@@ -19,9 +19,9 @@ export default function ({ name, options }) {
 
   if (pivot.isChecked) {
     pivotName = [pivot.value.value, name]
-      .map((w) => pluralize(w))
-      .map((w) => w.toLowerCase())
-      .map((w) => w.trim())
+      .map((word) => pluralize(word))
+      .map((word) => word.toLowerCase())
+      .map((word) => word.trim())
       .sort((x, y) => {
         if (x < y) return -1;
         if (x > y) return 1;

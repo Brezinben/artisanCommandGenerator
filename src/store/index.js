@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import commands from "./commands";
-import buildMigrationName from "./migrationLogic";
+
 import pluralize from "pluralize";
 const localStorageKey = "artisanCmd";
 
@@ -62,7 +62,10 @@ export default createStore({
         let name = "";
 
         if (selectedCommand.name === "migration" && options.length) {
-          name = buildMigrationName({ name: entityName, options: options });
+          //dynamic import
+          import("./migrationLogic").then(({ default: buildMigrationName }) => {
+            name = buildMigrationName({ name: entityName, options: options });
+          });
         } else {
           //Model in sigular for best pratice
           const lowerName = entityName.toLowerCase();
