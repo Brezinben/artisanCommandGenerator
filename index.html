@@ -2,7 +2,7 @@
 <html class="dark" lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link href="/favicon.ico" rel="icon" />
+    <link href="/favicon.png" rel="icon" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Artisan Command Generator</title>
   </head>
@@ -24,30 +24,4 @@
 
     <script src="/src/main.js" type="module"></script>
   </body>
-
-  <script>
-    const doc = document.documentElement;
-    window.onscroll = () => {
-      let pourcentage;
-      if (doc.scrollHeight > doc.clientHeight) {
-        //Calcule le % de page parcouru
-        let winScroll = document.body.scrollTop || doc.scrollTop;
-        let height = doc.scrollHeight - doc.clientHeight;
-        pourcentage = (winScroll / height) * 100;
-      } else {
-        pourcentage = 0;
-      }
-      document.getElementById("sc").style.width = pourcentage + "%";
-    };
-
-    // if (
-    //   localStorage.theme === "dark" ||
-    //   (!("theme" in localStorage) &&
-    //     window.matchMedia("(prefers-color-scheme: dark)").matches)
-    // ) {
-    //   doc.classList.add("dark");
-    // } else {
-    //   doc.classList.remove("dark");
-    // }
-  </script>
 </html>
