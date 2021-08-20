@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import commands from "./commands";
+import buildMigrationName from "./migrationLogic"
 
 import pluralize from "pluralize";
 const localStorageKey = "artisanCmd";
@@ -38,7 +39,7 @@ export default createStore({
   actions: {},
   modules: {},
   getters: {
-    getResultOfOne(state) {
+     getResultOfOne(state) {
       const { commandString, selectedCommand, options, entityName } = state;
       const capitalize = (str, lower = false) =>
         (lower ? str.toLowerCase() : str).replace(
@@ -62,10 +63,7 @@ export default createStore({
         let name = "";
 
         if (selectedCommand.name === "migration" && options.length) {
-          //dynamic import
-          import("./migrationLogic").then(({ default: buildMigrationName }) => {
-            name = buildMigrationName({ name: entityName, options: options });
-          });
+          name = buildMigrationName({ name: entityName, options: options });
         } else {
           //Model in sigular for best pratice
           const lowerName = entityName.toLowerCase();
