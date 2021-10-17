@@ -30,47 +30,36 @@
   </div>
 </template>
 
-<script>
+<script setup>
+//componant
 import CancelButton from "./reutilisable/CancelButton.vue";
 import Checkbox from "./reutilisable/Checkbox.vue";
+
+//for logic
 import EventBus from "@/EventBus";
-export default {
-  components: { Checkbox, CancelButton },
-  data() {
-    return {
-      entityWasSeleted: false,
-    };
-  },
-  created() {
-    EventBus.$on("created-new-command", this.reset);
-  },
-  destroyed() {
-    EventBus.$off("created-new-command", this.reset);
-  },
+import store from "@/store";
+import { computed, ref } from "@vue/reactivity";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 
-  computed: {
-    commands() {
-      return this.$store.getters.getCommands;
-    },
-    selectedCommand() {
-      return this.$store.getters.getSelectedCommand;
-    },
-  },
-  methods: {
-    onClick(name) {
-      this.entityWasSeleted = true;
-      const cmd = this.commands.find((cmd) => cmd.name == name);
-      this.$store.commit("setSelectedCommand", cmd);
-    },
-    reset() {
-      //deselect checkboxes
-      this.commands.forEach((cmd) => (cmd.isChecked = false));
-      this?.selectedCommand.options.forEach((cmd) => (cmd.isChecked = false));
+const entityWasSeleted = ref(false);
+const commands = computed(() => store.getters.getCommands);
+const selectedCommand = computed(() => store.getters.getSelectedCommand);
 
-      this.$store.commit("setSelectedCommand", null);
-      this.entityWasSeleted = false;
-    },
-  },
+const onClick = (name) => {
+  entityWasSeleted.value = true;
+  const cmd = commands.value.find((cmd) => cmd.name == name);
+  store.commit("setSelectedCommand", cmd);
+};
+
+onMounted(() => EventBus.$on("created-new-command", reset));
+onUnmounted(() => EventBus.$on("created-new-command", reset));
+const reset = () => {
+  //unckeck all command
+  commands.value.forEach((cmd) => (cmd.isChecked = false));
+  selectedCommand.value.options.forEach((cmd) => (cmd.isChecked = false));
+
+  store.commit("setSelectedCommand", null);
+  entityWasSeleted.value = false;
 };
 </script>
 <style scoped>

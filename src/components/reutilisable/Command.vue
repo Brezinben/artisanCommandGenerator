@@ -70,48 +70,49 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import OrderButton from "./OrderButton.vue";
 import CancelButton from "./CancelButton.vue";
+import { ref } from "@vue/reactivity";
+import store from "@/store";
 import EventBus from "@/EventBus";
-export default {
-  components: { CancelButton, OrderButton },
-  data() {
-    return { copied: false, modify: false, tempCommand: this.cmd.command };
-  },
-  methods: {
-    onClick() {
-      if (this.cmd.command != this.tempCommand) {
-        this.$store.commit("commandHasChanged", {
-          oldValue: this.cmd.command,
-          newValue: this.tempCommand,
-        });
-        EventBus.$emit("commandModified", {
-          type: "info",
-          message: "Command has been modified",
-        });
-      }
-      this.modify = !this.modify;
-    },
-    copy() {
-      navigator.clipboard.writeText(this.cmd.command);
 
-      this.copied = true;
-      setTimeout(() => (this.copied = false), 800);
-      EventBus.$emit("commandCopied", {
-        type: "success",
-        message: "Command has been copied into clipboard",
-      });
-    },
-    deleteCmd(cmd) {
-      this.$store.commit("deleteCommand", cmd);
-    },
-  },
-  props: {
-    cmd: Object,
-    canModify: Boolean,
-  },
-};
+const props = defineProps({
+  cmd: Object,
+  canModify: Boolean,
+});
+const copied = ref(false);
+const modify = ref(false);
+const tempCommand = ref(props.cmd.command);
+
+function onClick() {
+  if (props.cmd.command != tempCommand.value) {
+    store.commit("commandHasChanged", {
+      oldValue: props.cmd.command,
+      newValue: tempCommand.value,
+    });
+    EventBus.$emit("commandModified", {
+      type: "info",
+      message: "Command has been modified",
+    });
+  }
+  modify.value = !modify.value;
+}
+
+function copy() {
+  navigator.clipboard.writeText(props.cmd.command);
+
+  copied.value = true;
+  setTimeout(() => (copied.value = false), 800);
+  EventBus.$emit("commandCopied", {
+    type: "success",
+    message: "Command has been copied into clipboard",
+  });
+}
+
+function deleteCmd(cmd) {
+  store.commit("deleteCommand", cmd);
+}
 </script>
 
 <style>

@@ -10,15 +10,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import Checkbox from "./Checkbox.vue";
-
-export default {
-  components: { Checkbox },
-  props: {
-    options: Object,
-  },
-};
+defineProps({
+  options: Object,
+});
 </script>
 
 <style>

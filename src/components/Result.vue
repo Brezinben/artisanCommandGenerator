@@ -6,9 +6,8 @@
   >
     <command :canModify="true" :cmd="cmd" />
   </div>
-
   <button
-    v-if="this.result"
+    v-if="result"
     class="flex items-center justify-center w-full h-10 m-2 text-white duration-100 bg-green-700 rounded-md  hover:bg-green-800"
     @click="addCommand"
   >
@@ -37,32 +36,23 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import Command from "./reutilisable/Command.vue";
 import EventBus from "@/EventBus";
-export default {
-  emits: ["created-new-command"],
-  components: { Command },
-  computed: {
-    result() {
-      return this.$store.getters.getResultOfOne;
-    },
-    allResult() {
-      return this.$store.getters.getResult;
-    },
-    allCommands() {
-      return this.$store.getters.getAllCommands;
-    },
-  },
-  methods: {
-    addCommand() {
-      this.$store.commit("addCommand", {
-        order: this.allCommands.length + 1,
-        command: this.result.trim(),
-      });
+import { computed } from "@vue/reactivity";
+import store from "@/store";
 
-      EventBus.$emit("created-new-command");
-    },
-  },
+defineEmits(["created-new-command"]);
+const result = computed(() => store.getters.getResultOfOne);
+const allResult = computed(() => store.getters.getResult);
+const allCommands = computed(() => store.getters.getAllCommands);
+
+const addCommand = () => {
+  store.commit("addCommand", {
+    order: allCommands.value.length + 1,
+    command: result.value.trim(),
+  });
+
+  EventBus.$emit("created-new-command");
 };
 </script>

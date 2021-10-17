@@ -1,10 +1,10 @@
 <template>
   <div
-    v-if="this.allCommands.length > 1"
+    v-if="allCommands.length > 1"
     class="flex-col p-1 pr-0.5 cursor-pointer btn"
   >
     <div
-      @click="cmd.order != 0 && decrementOrder()"
+      @click="cmd.order != 0 && decrementOrder"
       class="rounded-t-sm order"
       :class="{ 'cursor-not-allowed': cmd.order == 1 }"
     >
@@ -26,7 +26,7 @@
 
     <hr />
     <div
-      @click="cmd.order != allCommands.length && incrementOrder()"
+      @click="cmd.order != allCommands.length && incrementOrder"
       class="rounded-b-sm order"
       :class="{ 'cursor-not-allowed': cmd.order == allCommands.length }"
     >
@@ -49,27 +49,23 @@
   {{ cmd.order }}
 </template>
 
-<script>
-export default {
-  props: {
-    cmd: Object,
-  },
-  computed: {
-    allCommands() {
-      return this.$store.getters.getAllCommands;
-    },
-  },
-  methods: {
-    incrementOrder() {
-      if (this.cmd.order == this.allCommands.length) return;
-      this.cmd.order++;
-    },
-    decrementOrder() {
-      if (this.cmd.order == 1) return;
-      this.cmd.order--;
-    },
-  },
+<script setup>
+import { computed } from "@vue/reactivity";
+import store from "@/store";
+
+const props = defineProps({
+  cmd: Object,
+});
+
+const allCommands = computed(() => store.getters.getAllCommands);
+
+const incrementOrder = () => {
+  if (props.cmd.order == allCommands.length) return;
+  props.cmd.order++;
+};
+
+const decrementOrder = () => {
+  if (props.cmd.order == 1) return;
+  props.cmd.order--;
 };
 </script>
-
-<style></style>

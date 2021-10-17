@@ -11,27 +11,11 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import Alert from "./components/reutilisable/Alert.vue";
 import Result from "./components/Result.vue";
-
-export default {
-  emits: [],
-  created() {},
-  mounted() {},
-  data() {
-    return {};
-  },
-  props: {},
-  components: {
-    Result,
-    Alert,
-  },
-  watch: {},
-
-  computed: {},
-};
 </script>
+
 <style>
 [data-title]:hover:after {
   opacity: 1;

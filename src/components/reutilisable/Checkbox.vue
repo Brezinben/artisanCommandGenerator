@@ -23,18 +23,17 @@
   </div>
 </template>
 
-<script>
-import { commonsOptions } from "../../store/commands";
-export default {
-  data() {
-    return {
-      isCommon: commonsOptions.map((n) => n.name).includes(this.option.name),
-    };
-  },
-  props: {
-    option: Object,
-  },
-};
+<script setup>
+import { computed } from "@vue/reactivity";
+import { commonsOptions } from "@/store/commands";
+
+const props = defineProps({
+  option: Object,
+});
+
+const isCommon = computed(() =>
+  commonsOptions.map((n) => n.name).includes(props.option.name)
+);
 </script>
 
 <style lang="scss">

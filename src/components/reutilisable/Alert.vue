@@ -15,7 +15,7 @@
       <p>{{ alert.message }}</p>
       <span
         class="absolute inset-y-0 right-0 flex items-center mr-4"
-        @click="this.show = !this.show"
+        @click="show = !show"
       >
         <svg class="w-4 h-4 fill-current" role="button" viewBox="0 0 20 20">
           <path
@@ -28,32 +28,26 @@
     </div>
   </transition>
 </template>
-<script>
+
+<script setup>
+import { ref } from "@vue/reactivity";
 import EventBus from "@/EventBus";
-export default {
-  name: "Alert",
-  data() {
-    return {
-      alert: null,
-      show: false,
-    };
-  },
-  created() {
-    EventBus.$on("commandCopied", this.triggerAlert);
-    EventBus.$on("commandModified", this.triggerAlert);
-  },
-  methods: {
-    triggerAlert(alert) {
-      this.alert = alert;
-      this.show = true;
-      setTimeout(() => {
-        this.show = false;
-        this.alert = null;
-      }, 2000);
-    },
-  },
+
+const alert = ref(null);
+const show = ref(false);
+const triggerAlert = (alertObject) => {
+  alert.value = alertObject;
+  show.value = true;
+  setTimeout(() => {
+    show.value = false;
+    alert.value = null;
+  }, 2000);
 };
+
+EventBus.$on("commandCopied", triggerAlert);
+EventBus.$on("commandModified", triggerAlert);
 </script>
+
 <style scoped>
 .alert {
   @apply fixed right-0 py-3 pl-4 pr-10 leading-normal m-2 rounded-md z-10;

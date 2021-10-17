@@ -8,7 +8,7 @@
         <span
           :class="toggler"
           @click="toggleDarkMode"
-          class="absolute inset-y-0 block w-4 h-4 mt-1 ml-1 duration-500 transform rounded-full shadow  focus-within:shadow-outline"
+          class="absolute inset-y-0 block w-4 h-4 mt-1 ml-1 duration-500 transform rounded-full shadow  bg-gradient-to-r focus-within:shadow-outline"
         >
           <input
             id="unchecked2"
@@ -17,41 +17,33 @@
           />
         </span>
       </span>
-      <span v-if="this.isDark" class="toogleOption">Edition 🔥</span>
+      <span v-if="isDark" class="toogleOption">Edition 🔥</span>
       <span v-else class="toogleOption">Edition ❄</span>
     </label>
   </div>
 </template>
 
-<script>
+<script setup>
+import { computed, ref } from "@vue/reactivity";
 const docClassList = document.documentElement.classList;
-export default {
-  data() {
-    return { isDark: docClassList.contains("dark") };
-  },
-  methods: {
-    toggleDarkMode() {
-      if (this.isDark) {
-        docClassList.remove("dark");
-        docClassList.add("light");
-      } else {
-        docClassList.add("dark");
-        docClassList.remove("light");
-      }
-      this.isDark = !this.isDark;
-    },
-  },
-  computed: {
-    toggler() {
-      return {
-        "bg-gradient-to-r from-yellow-400  to-yellow-600   translate-x-full":
-          this.isDark,
-        "bg-gradient-to-r from-blue-400  to-blue-600  translate-x-0":
-          !this.isDark,
-      };
-    },
-  },
-};
+const isDark = ref(docClassList.contains("dark"));
+
+const toggler = computed(() => {
+  return {
+    "from-yellow-400 to-yellow-600 translate-x-full": isDark.value,
+    "from-blue-400 to-blue-600 translate-x-0": !isDark.value,
+  };
+});
+function toggleDarkMode() {
+  if (isDark.value) {
+    docClassList.remove("dark");
+    docClassList.add("light");
+  } else {
+    docClassList.add("dark");
+    docClassList.remove("light");
+  }
+  isDark.value = !isDark.value;
+}
 </script>
 
 <style>

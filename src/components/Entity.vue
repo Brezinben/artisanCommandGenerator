@@ -15,17 +15,12 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return { entityName: "" };
-  },
-  methods: {
-    onInput() {
-      this.$store.commit("setEntityName", this.entityName);
-    },
-  },
-};
+<script setup>
+import { ref } from "@vue/reactivity";
+import store from "@/store";
+
+const entityName = ref("");
+const onInput = () => store.commit("setEntityName", entityName.value);
 </script>
 
 <style scoped>
